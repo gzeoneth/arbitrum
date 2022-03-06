@@ -51,6 +51,12 @@ struct Slice;
 class ColumnFamilyHandle;
 }  // namespace rocksdb
 
+namespace boost {
+namespace filesystem {
+class path;
+}  // namespace filesystem
+}  // namespace boost
+
 struct InitializeResult {
     rocksdb::Status status;
     bool finished;
@@ -488,7 +494,7 @@ class ArbCore {
         uint256_t& number);
     std::variant<rocksdb::Status, CheckpointVariant> getLastCheckpoint(
         ReadTransaction& tx);
-    void saveRocksdbCheckpoint(const std::filesystem::path& save_rocksdb_path,
+    void saveRocksdbCheckpoint(const boost::filesystem::path& save_rocksdb_path,
                                ReadTransaction& tx);
 };
 
