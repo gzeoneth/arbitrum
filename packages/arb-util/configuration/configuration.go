@@ -443,8 +443,7 @@ func ParseDBTool() (*Config, error) {
 	}
 
 	err = resolveDirectoryNames(out, wallet)
-
-	return out, nil
+	return out, err
 }
 
 func AddL1PostingStrategyOptions(f *flag.FlagSet, prefix string) {
@@ -1042,7 +1041,9 @@ func endCommonParse(k *koanf.Koanf) (*Config, *Wallet, error) {
 			"wallet.local.password":                     "",
 			"wallet.local.private-key":                  "",
 		}, "."), nil)
-
+		if err != nil {
+			return nil, nil, errors.Wrap(err, "unable overwrite wallet info in config")
+		}
 		c, err := k.Marshal(json.Parser())
 		if err != nil {
 			return nil, nil, errors.Wrap(err, "unable to marshal config file to JSON")
